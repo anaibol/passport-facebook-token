@@ -28,7 +28,7 @@ export default class FacebookTokenStrategy extends OAuth2Strategy {
     const options = _options || {};
     const verify = _verify;
 
-    options.authorizationURL = options.authorizationURL || 'https://www.facebook.com/v2.4/dialog/oauth';
+    options.authorizationURL = options.authorizationURL || 'https://www.facebook.com/v2.5/dialog/oauth';
     options.tokenURL = options.tokenURL || 'https://graph.facebook.com/oauth/access_token';
 
     super(options, verify);
@@ -36,7 +36,7 @@ export default class FacebookTokenStrategy extends OAuth2Strategy {
     this.name = 'facebook-token';
     this._accessTokenField = options.accessTokenField || 'access_token';
     this._refreshTokenField = options.refreshTokenField || 'refresh_token';
-    this._profileURL = options.profileURL || 'https://graph.facebook.com/v2.4/me';
+    this._profileURL = options.profileURL || 'https://graph.facebook.com/v2.5/me';
     this._profileFields = options.profileFields || ['id', 'displayName', 'name', 'emails'];
     this._profileImage = options.profileImage || {};
     this._clientSecret = options.clientSecret;
@@ -83,12 +83,12 @@ export default class FacebookTokenStrategy extends OAuth2Strategy {
    *   - `id`               the user's Facebook ID
    *   - `username`         the user's Facebook username
    *   - `displayName`      the user's full name
-   *   - `name.familyName`  the user's last name
-   *   - `name.givenName`   the user's first name
+   *   - `name.lastName`  the user's last name
+   *   - `name.firstName`   the user's first name
    *   - `name.middleName`  the user's middle name
    *   - `gender`           the user's gender: `male` or `female`
    *   - `profileUrl`       the URL of the profile for the user on Facebook
-   *   - `emails`           the proxied or contact email address granted by the user
+   *   - `email`           the proxied or contact email address granted by the user
    *
    * @param {String} accessToken
    * @param {Function} done
@@ -127,20 +127,12 @@ export default class FacebookTokenStrategy extends OAuth2Strategy {
           provider: 'facebook',
           id: json.id,
           displayName: json.name || '',
-          name: {
-            familyName: json.last_name || '',
-            givenName: json.first_name || '',
-            middleName: json.middle_name || ''
-          },
+          lastName: json.last_name || '',
+          firstName: json.first_name || '',
+          middleName: json.middle_name || '',
           gender: json.gender || '',
-          emails: [{
-            value: json.email || ''
-          }],
-          photos: [{
-            value: imageUrl
-          }],
-          _raw: body,
-          _json: json
+          email: json.email || '',
+          picture: imageUrl
         };
 
         done(null, profile);
