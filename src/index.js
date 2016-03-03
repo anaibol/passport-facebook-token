@@ -63,6 +63,8 @@ export default class FacebookTokenStrategy extends OAuth2Strategy {
         if (error) return this.error(error);
         if (!user) return this.fail(info);
 
+        user.accessToken = accessToken
+
         return this.success(user, info);
       };
 
