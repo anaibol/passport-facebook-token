@@ -1,6 +1,6 @@
 {
   "name": "custom-passport-facebook-token",
-  "version": "3.4.0",
+  "version": "3.7.0",
   "description": "Facebook token authentication strategy for Passport",
   "main": "lib/index.js",
   "scripts": {

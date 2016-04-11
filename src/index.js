@@ -83,12 +83,12 @@ export default class FacebookTokenStrategy extends OAuth2Strategy {
    *   - `id`               the user's Facebook ID
    *   - `username`         the user's Facebook username
    *   - `displayName`      the user's full name
-   *   - `name.lastName`  the user's last name
-   *   - `name.firstName`   the user's first name
+   *   - `name.familyName`  the user's last name
+   *   - `name.givenName`   the user's first name
    *   - `name.middleName`  the user's middle name
    *   - `gender`           the user's gender: `male` or `female`
    *   - `profileUrl`       the URL of the profile for the user on Facebook
-   *   - `email`           the proxied or contact email address granted by the user
+   *   - `emails`           the proxied or contact email address granted by the user
    *
    * @param {String} accessToken
    * @param {Function} done
@@ -125,15 +125,15 @@ export default class FacebookTokenStrategy extends OAuth2Strategy {
 
         const profile = {
           provider: 'facebook',
-          id: json.id,
+          facebookId: parseInt(json.id),
+          facebookAccessToken: accessToken,
           displayName: json.name || '',
           lastName: json.last_name || '',
           firstName: json.first_name || '',
           middleName: json.middle_name || '',
           gender: json.gender || '',
           email: json.email || '',
-          picture: imageUrl,
-          accessToken
+          picture: imageUrl
         };
 
         done(null, profile);
@@ -189,7 +189,7 @@ export default class FacebookTokenStrategy extends OAuth2Strategy {
   static convertProfileFields(_profileFields) {
     let profileFields = _profileFields || [];
     let map = {
-      'facebookId': 'id',
+      'id': 'id',
       'displayName': 'name',
       'name': ['last_name', 'first_name', 'middle_name'],
       'gender': 'gender',
