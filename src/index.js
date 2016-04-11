@@ -189,7 +189,7 @@ export default class FacebookTokenStrategy extends OAuth2Strategy {
   static convertProfileFields(_profileFields) {
     let profileFields = _profileFields || [];
     let map = {
-      'id': 'id',
+      'facebookId': 'id',
       'displayName': 'name',
       'name': ['last_name', 'first_name', 'middle_name'],
       'gender': 'gender',
